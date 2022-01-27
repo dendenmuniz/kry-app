@@ -1,35 +1,18 @@
 import React, { useState } from "react";
 import kryQuestions from "../config/questions.json";
 
-
-import { Button } from "./Button";
-
 function Questions() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [nextQuestion, setNextQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
-  const [answerChecked, setAnswerChecked] = useState("");
   const [message, setMessage] = useState("");
   const [showBookingButton, setShowBookingButton] = useState(false);
-  const [progress, setProgress] = useState(1);
-
-  const checkProgress = () => {
-    if (currentQuestion === kryQuestions.questions.length - 1) {
-      setProgress(100);
-    } else {
-      setProgress((currentQuestion / kryQuestions.questions.length) * 100);
-    }
-  };
+  const [progress, setProgress] = useState(0);
 
   const handleAnswerOptionClick = (answer, aScore) => {
-    setAnswerChecked(answer);
     const nextQuestion = kryQuestions.questions[currentQuestion].next;
     let indexNextQuestion;
-    console.log("length", nextQuestion.length);
-    console.log("nextQuestion", nextQuestion);
-    console.log(kryQuestions.questions.length);
-    console.log("current", currentQuestion);
     if (
       nextQuestion.length > 1 &&
       kryQuestions.questions.length - 1 !== currentQuestion
@@ -43,8 +26,6 @@ function Questions() {
       nextQuestion.length > 1 &&
       kryQuestions.questions.length - 1 === currentQuestion
     ) {
-      console.log("outcome");
-      console.log(nextQuestion.max_score <= score);
       for (var i = 0; i < nextQuestion.length; i++) {
         if (
           nextQuestion[i].max_score === undefined ||
@@ -59,19 +40,25 @@ function Questions() {
       indexNextQuestion = kryQuestions.questions.findIndex(
         (question) => question.id === nextQuestion[0].next_question
       );
-      console.log(indexNextQuestion);
       setNextQuestion(indexNextQuestion);
     }
-
+    setProgress((currentQuestion * 320) / (kryQuestions.questions.length - 1));
     setScore(score + aScore);
-    console.log("score", score);
   };
 
   function handleNextQuestion() {
     if (currentQuestion < kryQuestions.questions.length - 1) {
       setCurrentQuestion(nextQuestion);
-      checkProgress();
       setNextQuestion(currentQuestion + 1);
+      setShowScore(false);
+    }
+  }
+  function handlePreviousQuestion() {
+    if (currentQuestion <= 0) {
+      const previousQ = currentQuestion -1;
+      setCurrentQuestion(previousQ);
+      setNextQuestion(previousQ);
+      setProgress((currentQuestion * 320) / (kryQuestions.questions.length - 1));
       setShowScore(false);
     }
   }
@@ -84,16 +71,28 @@ function Questions() {
     setShowBookingButton(nextStep.show_booking_button);
   }
 
+  function bookingButton() {
+    window.open("https://www.kry.se/", "_blank");
+  }
+
+  function refreshPage() {
+    window.location.reload();
+  }
+
   return (
     <div>
-      <header >
-        Heartburn checker
-      </header>
+      <header>Heartburn checker</header>
+      <div class="progress-container">
+        <div class="progress" style={{ width: progress }}></div>
+      </div>
       {showScore && kryQuestions.questions.length - 1 === currentQuestion ? (
         <>
-          <div className="question-text">{message}</div>
-          <div className="question-text">
-            {showBookingButton && <button>booking appoitment</button>}
+          <div className="question-section">
+            <div className="question-text">{message}</div>
+            <div className="footer">
+              {showBookingButton && <button onClick={() => bookingButton()}>Booking appointment</button>}
+              <button onClick={() => refreshPage()}>Restart</button>
+            </div>
           </div>
         </>
       ) : (
@@ -112,14 +111,12 @@ function Questions() {
                   }
                 >
                   {answer.label}
-                  {answerChecked === answer.id && (
-                    <i class="icon" aria-hidden="true"></i>
-                  )}
                 </button>
               ))}
             </div>
             <div className="footer">
-            <button onClick={handleNextQuestion}>Next</button>
+              <button onClick={handleNextQuestion}>Next</button>
+              <button onClick={handlePreviousQuestion}>Back</button>
             </div>
           </div>
         </>

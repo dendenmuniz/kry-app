@@ -74,43 +74,6 @@ function App() {
   return (
     <div className="app">
       <Questions />
-      {/* {showScore && kryQuestions.questions.length -1 === currentQuestion ? (
-        <>
-        <div className="question-text">
-          {message}
-        </div>
-        <div className="question-text">
-         {showBookingButton && <button>booking appoitment</button>}
-       </div>
-       </>
-      ) : (
-        <>
-          <div className="question-section">
-            <div className="question-count">
-              <span>Question {currentQuestion + 1}</span>/{kryQuestions.questions.length}
-            </div>
-            <div className="question-text">
-              {kryQuestions.questions[currentQuestion].question_text}
-            </div>
-
-            <div className="answer-section">
-              {kryQuestions.questions[currentQuestion].answers.map((answer) => (
-                <button
-                  onClick={() =>
-                    handleAnswerOptionClick(answer.id, answer.score)
-                  }
-                  key={answer.id}
-                >
-                  {" "}
-                  {answer.label}
-                  <i class="icon" aria-hidden="true"></i>
-                </button>
-              ))}
-            </div>
-            <button onClick={handleNextQuestion}>Next</button>
-          </div>
-        </>
-      )} */}
     </div>
   );
 }
