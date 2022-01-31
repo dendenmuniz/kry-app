@@ -1,7 +1,7 @@
 import checked from "../assets/icons/check-mark.png";
 
-export default function AnswerButton({ onClick, toggleList, label }) {
-  const icon = toggleList ? checked : null;
+export default function AnswerButton({ onClick, toggleIcon, label }) {
+  const icon = toggleIcon ? checked : null; 
   return (
     <button onClick={onClick} className="answer-button">
       {label}

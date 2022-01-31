@@ -65,6 +65,9 @@ header {
   padding: 15px 0;
   margin-bottom: 20px;
   margin-right: 20px;
+  color:#3f6072;
+  font-weight: bold;
+
 }
 
 /* ANSWERS/RIGHT SECTION */
@@ -107,9 +110,9 @@ button {
   font-weight: bolder;
   color: #6accba;
   background-color: #ffffff;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
-  padding: 20px 10px;
+  padding: 10px 5px;
   justify-content: center;
   align-items: center;
   border: 3px solid #e4eaee;

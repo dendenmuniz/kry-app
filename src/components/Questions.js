@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import kryQuestions from "../config/questions.json";
 import AnswerButton from "./AnswerButton";
-import Question from "./Question";
+import Label from "./Label";
 
 function Questions() {
   let previousAnswered = [];
@@ -10,17 +10,20 @@ function Questions() {
   const [previousQuestion, setPreviousQuestion] = useState(previousAnswered);
   const [showOutcome, setShowOutcome] = useState(false);
   const [score, setScore] = useState(0);
-  const [message, setMessage] = useState("");
-  const [showBookingButton, setShowBookingButton] = useState(false);
+  const [advice, setAdvice] = useState({
+    id: "",
+    text: "",
+    show_booking_button: false,
+  });
   const [progress, setProgress] = useState(0);
-  const [toogleList, setToggleList] = useState(false);
+  const [toggleIcon, setToggleIcon] = useState(false);
   const [currentAnswer, setCurrentAnswer] = useState({
     answered: "",
     score: 0,
   });
 
   function handleAnswerOptionClick(answer, aScore) {
-    setToggleList(true);
+    setToggleIcon(true);
     setCurrentAnswer({ answered: answer, score: aScore });
     const nextQ = kryQuestions.questions[currentQuestion].next;
     let indexNextQuestion;
@@ -100,8 +103,12 @@ function Questions() {
 
   function outcomeCheck(outcome) {
     const nextStep = kryQuestions.outcomes.find((step) => step.id === outcome);
-    setMessage(nextStep.text);
-    setShowBookingButton(nextStep.show_booking_button);
+    console.log("nextStep", nextStep);
+    setAdvice({
+      id: nextStep.id,
+      text: nextStep.text,
+      show_booking_button: nextStep.show_booking_button,
+    });
   }
 
   function bookingButton() {
@@ -120,10 +127,10 @@ function Questions() {
       </div>
       {showOutcome && kryQuestions.questions.length - 1 === currentQuestion ? (
         <>
-          <div className="question-section">
-            <div className="question-text">{message}</div>
+          <div id="Outcome" className="question-section">
+            <Label text={advice.text} key={advice.id} />
             <div className="footer">
-              {showBookingButton && (
+              {advice.show_booking_button && (
                 <button onClick={() => bookingButton()}>
                   Booking appointment
                 </button>
@@ -134,19 +141,19 @@ function Questions() {
         </>
       ) : (
         <>
-          <div className="question-section">
-            <Question
+          <div id="Question" className="question-section">
+            <Label
               key={kryQuestions.questions[currentQuestion].id}
-              questionText={
+              text={
                 kryQuestions.questions[currentQuestion].question_text
               }
             />
-
+          
             <div className="answer-section">
               {kryQuestions.questions[currentQuestion].answers.map((answer) => (
                 <AnswerButton
                   key={answer.id}
-                  toggleList={toogleList}
+                  toggleList={toggleIcon}
                   label={answer.label}
                   onClick={() =>
                     handleAnswerOptionClick(answer.id, answer.score)
