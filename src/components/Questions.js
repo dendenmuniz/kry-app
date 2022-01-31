@@ -1,72 +1,105 @@
 import React, { useState } from "react";
 import kryQuestions from "../config/questions.json";
+import AnswerButton from "./AnswerButton";
+import Question from "./Question";
 
 function Questions() {
+  let previousAnswered = [];
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [nextQuestion, setNextQuestion] = useState(0);
-  const [showScore, setShowScore] = useState(false);
+  const [previousQuestion, setPreviousQuestion] = useState(previousAnswered);
+  const [showOutcome, setShowOutcome] = useState(false);
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState("");
   const [showBookingButton, setShowBookingButton] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [toogleList, setToggleList] = useState(false);
+  const [currentAnswer, setCurrentAnswer] = useState({
+    answered: "",
+    score: 0,
+  });
 
-  const handleAnswerOptionClick = (answer, aScore) => {
-    const nextQuestion = kryQuestions.questions[currentQuestion].next;
+  function handleAnswerOptionClick(answer, aScore) {
+    setToggleList(true);
+    setCurrentAnswer({ answered: answer, score: aScore });
+    const nextQ = kryQuestions.questions[currentQuestion].next;
     let indexNextQuestion;
     if (
-      nextQuestion.length > 1 &&
+      nextQ.length > 1 &&
       kryQuestions.questions.length - 1 !== currentQuestion
     ) {
-      let nextId = nextQuestion.find((answers) => answers.answered === answer);
+      let nextId = nextQ.find((answers) => answers.answered === answer);
       indexNextQuestion = kryQuestions.questions.findIndex(
         (question) => question.id === nextId.next_question
       );
       setNextQuestion(indexNextQuestion);
     } else if (
-      nextQuestion.length > 1 &&
+      nextQ.length > 1 &&
       kryQuestions.questions.length - 1 === currentQuestion
     ) {
-      for (var i = 0; i < nextQuestion.length; i++) {
-        if (
-          nextQuestion[i].max_score === undefined ||
-          score <= nextQuestion[i].max_score
-        ) {
-          outcomeCheck(nextQuestion[i].outcome);
-          setShowScore(true);
+      for (var i = 0; i < nextQ.length; i++) {
+        if (nextQ[i].max_score === undefined || score <= nextQ[i].max_score) {
+          outcomeCheck(nextQ[i].outcome);
           break;
         }
       }
     } else {
       indexNextQuestion = kryQuestions.questions.findIndex(
-        (question) => question.id === nextQuestion[0].next_question
+        (question) => question.id === nextQ[0].next_question
       );
       setNextQuestion(indexNextQuestion);
     }
-    setProgress((currentQuestion * 320) / (kryQuestions.questions.length - 1));
-    setScore(score + aScore);
-  };
+  }
 
   function handleNextQuestion() {
-    if (currentQuestion < kryQuestions.questions.length - 1) {
-      setCurrentQuestion(nextQuestion);
-      setNextQuestion(currentQuestion + 1);
-      setShowScore(false);
+    if (
+      currentQuestion !== nextQuestion ||
+      kryQuestions.questions.length - 1 === currentQuestion
+    ) {
+      setPreviousQuestion((previousAnswered) => [
+        ...previousAnswered,
+        {
+          question: currentQuestion,
+          answer: currentAnswer.answered,
+          score: currentAnswer.score,
+        },
+      ]);
+      console.log("previous on next", previousQuestion);
+      setProgress(
+        ((currentQuestion + 1) * 320) / kryQuestions.questions.length
+      );
+      setScore(score + currentAnswer.score);
+      console.log("score", score);
+      if (currentQuestion < kryQuestions.questions.length - 1) {
+        setCurrentQuestion(nextQuestion);
+        setShowOutcome(false);
+      } else {
+        setShowOutcome(true);
+      }
     }
   }
   function handlePreviousQuestion() {
-    if (currentQuestion <= 0) {
-      const previousQ = currentQuestion -1;
-      setCurrentQuestion(previousQ);
-      setNextQuestion(previousQ);
-      setProgress((currentQuestion * 320) / (kryQuestions.questions.length - 1));
-      setShowScore(false);
+    console.log("previous on back bve", previousQuestion);
+    if (previousQuestion.length > 0) {
+      setCurrentQuestion(
+        previousQuestion[[previousQuestion.length - 1]].question
+      );
+      setPreviousQuestion((previousAnswered) => {
+        const prev = [...previousAnswered];
+        prev.pop();
+        return prev;
+      });
+    } else {
+      setCurrentQuestion(0);
+      setPreviousQuestion([]);
     }
+    setScore(score - previousQuestion[[previousQuestion.length - 1]].score);
+    setProgress(((currentQuestion - 1) * 320) / kryQuestions.questions.length);
+    setShowOutcome(false);
   }
 
   function outcomeCheck(outcome) {
-    console.log("outcome", outcome);
     const nextStep = kryQuestions.outcomes.find((step) => step.id === outcome);
-    console.log("nextStep", nextStep);
     setMessage(nextStep.text);
     setShowBookingButton(nextStep.show_booking_button);
   }
@@ -82,15 +115,19 @@ function Questions() {
   return (
     <div>
       <header>Heartburn checker</header>
-      <div class="progress-container">
-        <div class="progress" style={{ width: progress }}></div>
+      <div className="progress-container">
+        <div className="progress" style={{ width: progress }}></div>
       </div>
-      {showScore && kryQuestions.questions.length - 1 === currentQuestion ? (
+      {showOutcome && kryQuestions.questions.length - 1 === currentQuestion ? (
         <>
           <div className="question-section">
             <div className="question-text">{message}</div>
             <div className="footer">
-              {showBookingButton && <button onClick={() => bookingButton()}>Booking appointment</button>}
+              {showBookingButton && (
+                <button onClick={() => bookingButton()}>
+                  Booking appointment
+                </button>
+              )}
               <button onClick={() => refreshPage()}>Restart</button>
             </div>
           </div>
@@ -98,25 +135,30 @@ function Questions() {
       ) : (
         <>
           <div className="question-section">
-            <div className="question-text">
-              {kryQuestions.questions[currentQuestion].question_text}
-            </div>
+            <Question
+              key={kryQuestions.questions[currentQuestion].id}
+              questionText={
+                kryQuestions.questions[currentQuestion].question_text
+              }
+            />
 
             <div className="answer-section">
               {kryQuestions.questions[currentQuestion].answers.map((answer) => (
-                <button
+                <AnswerButton
                   key={answer.id}
+                  toggleList={toogleList}
+                  label={answer.label}
                   onClick={() =>
                     handleAnswerOptionClick(answer.id, answer.score)
                   }
-                >
-                  {answer.label}
-                </button>
+                />
               ))}
             </div>
             <div className="footer">
               <button onClick={handleNextQuestion}>Next</button>
-              <button onClick={handlePreviousQuestion}>Back</button>
+              {currentQuestion >= 1 && (
+                <button onClick={handlePreviousQuestion}>Back</button>
+              )}
             </div>
           </div>
         </>
