@@ -77,7 +77,7 @@ yarn build
 
 ## Dependencies & Tools Used
 
-* As a project generated with create-react-app, it includes React and ReactDOM as dependencies. It also includes a set of scripts used by Create React App as a development dependency.
+* As a project generated with [create-react-app](https://create-react-app.dev/), it includes React and ReactDOM as dependencies. It also includes a set of scripts used by Create React App as a development dependency.
 * *[Ajv Json shema validatior](https://github.com/ajv-validator/ajv)*
 
 ## DevDependencies
