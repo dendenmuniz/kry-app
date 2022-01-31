@@ -68,12 +68,9 @@ export default function JsonValidation(data) {
 
   const validate = ajv.compile(schema);
 
-  console.log("aaaa");
-
   const valid = validate(data);
-  console.log("valid", valid);
+
   if (!valid) {
-    console.log(valid);
     console.log(validate.errors);
   }
   return valid;

@@ -67,12 +67,12 @@ function Questions() {
           score: currentAnswer.score,
         },
       ]);
-      console.log("previous on next", previousQuestion);
+
       setProgress(
         ((currentQuestion + 1) * 320) / kryQuestions.questions.length
       );
       setScore(score + currentAnswer.score);
-      console.log("score", score);
+
       if (currentQuestion < kryQuestions.questions.length - 1) {
         setCurrentQuestion(nextQuestion);
         setShowOutcome(false);
@@ -82,7 +82,6 @@ function Questions() {
     }
   }
   function handlePreviousQuestion() {
-    console.log("previous on back bve", previousQuestion);
     if (previousQuestion.length > 0) {
       setCurrentQuestion(
         previousQuestion[[previousQuestion.length - 1]].question
@@ -103,7 +102,7 @@ function Questions() {
 
   function outcomeCheck(outcome) {
     const nextStep = kryQuestions.outcomes.find((step) => step.id === outcome);
-    console.log("nextStep", nextStep);
+
     setAdvice({
       id: nextStep.id,
       text: nextStep.text,
@@ -144,11 +143,9 @@ function Questions() {
           <div id="Question" className="question-section">
             <Label
               key={kryQuestions.questions[currentQuestion].id}
-              text={
-                kryQuestions.questions[currentQuestion].question_text
-              }
+              text={kryQuestions.questions[currentQuestion].question_text}
             />
-          
+
             <div className="answer-section">
               {kryQuestions.questions[currentQuestion].answers.map((answer) => (
                 <AnswerButton
