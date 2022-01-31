@@ -5,8 +5,9 @@ import Questions from "./components/Questions";
 import Label from "./components/Label";
 
 function App() {
+  let kryQuestions;
   try {
-    const kryQuestions = require("./config/questions.json");
+     kryQuestions = require("./config/questions.json");
     const start = () => {
       JsonValidation(kryQuestions);
     };

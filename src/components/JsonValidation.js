@@ -70,7 +70,7 @@ export default function JsonValidation(data) {
 
   console.log("aaaa");
 
-  const valid = true; //validate(data);
+  const valid = validate(data);
   console.log("valid", valid);
   if (!valid) {
     console.log(valid);

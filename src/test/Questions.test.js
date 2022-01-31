@@ -1,8 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Questions from "../components/Questions";
-import Label from "../components/Label";
 import mockData from "../config/questions.json";
-
 
 const DEFAULT_PROPS = {
   questions: mockData.questions,
