@@ -49,23 +49,31 @@ To **run** the project **in the development mode**, follow the instructions belo
 
 Download or clone the repository in your computer:
 
-``$ git clone https://github.com/dendenmuniz/kry-app.git``
+``
+$ git clone https://github.com/dendenmuniz/kry-app.git
+``
 
 **In the repository folder:
 
 * install project dependencies with
 
-``yarn install``
+``
+yarn install
+``
 
 * start the development server with
 
-``yarn start``
+``
+yarn start
+``
 
 * open http://localhost:3000 to view it in the browser.
 
 To **run** the project **in the production mode**, use this command intstead:
 
-``yarn build``
+``
+yarn build
+``
 
 ## Dependencies & Tools Used
 
