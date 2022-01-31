@@ -13,10 +13,14 @@ For this, you can find a JSON file structured with questions, answers and outcom
 
 Your assignment is to create a small React front-end application that runs the flow described
 above.
+
 ● The application should read questions, answers and outcomes from the JSON you
 can find above.
+
 ● The application should start with the first question in the list.
+
 ● The patient’s score starts at 0.
+
 ● Each question contains a list of possible answers (exactly 2 per question). Answers
 have “id”, “label” (text to put on button) and “score” (a number to be added to the
 current score for the patient).
@@ -25,11 +29,15 @@ current score for the patient).
 
 ● As a user, I can navigate the questionnaire in a UI. Mimic this design, or make up an
 even nicer one.
+
 ● As a user, I can navigate back and forth in the questionnaire.
+
 ● As a user, after answering all the questions, I am presented with suggested actions
 to take.
+
 ● As a user that has completed the questionnaire, I can restart the questionnaire and
 take it again.
+
 ● As a user, I can visualise the progress of the questionnaire as I answer the
 questions.
 
