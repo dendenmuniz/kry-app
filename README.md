@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# Kry - Code Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Context
 
-## Available Scripts
+We want to collect information about a patient's symptoms and suggest an action for the
+patient to take (for example, booking a digital appointment with one of our doctors).
+To collect this information, we ask the patient a series of questions. Depending on the
+answer to each question, a new question will be shown until we reach a conclusion about
+what action to suggest to the patient.
+For this, you can find a JSON file structured with questions, answers and outcomes.
 
-In the project directory, you can run:
+## The assignment
 
-### `yarn start`
+Your assignment is to create a small React front-end application that runs the flow described
+above.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+● The application should read questions, answers and outcomes from the JSON you
+can find above.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+● The application should start with the first question in the list.
 
-### `yarn test`
+● The patient’s score starts at 0.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+● Each question contains a list of possible answers (exactly 2 per question). Answers
+have “id”, “label” (text to put on button) and “score” (a number to be added to the
+current score for the patient).
 
-### `yarn build`
+### Requirements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+● As a user, I can navigate the questionnaire in a UI. Mimic this design, or make up an
+even nicer one.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+● As a user, I can navigate back and forth in the questionnaire.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+● As a user, after answering all the questions, I am presented with suggested actions
+to take.
 
-### `yarn eject`
+● As a user that has completed the questionnaire, I can restart the questionnaire and
+take it again.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+● As a user, I can visualise the progress of the questionnaire as I answer the
+questions.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Getting Started
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Instructions to run a local copy for development and test pruposes.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To **run** the project **in the development mode**, follow the instructions below:
 
-## Learn More
+Download or clone the repository in your computer:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+``
+$ git clone https://github.com/dendenmuniz/kry-app.git
+``
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**In the repository folder:
 
-### Code Splitting
+* install project dependencies with
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+``
+yarn install
+``
 
-### Analyzing the Bundle Size
+* start the development server with
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+``
+yarn start
+``
 
-### Making a Progressive Web App
+* open http://localhost:3000 to view it in the browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+To **run** the project **in the production mode**, use this command intstead:
 
-### Advanced Configuration
+``
+yarn build
+``
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Dependencies & Tools Used
 
-### Deployment
+* As a project generated with [create-react-app](https://create-react-app.dev/), it includes React and ReactDOM as dependencies. It also includes a set of scripts used by Create React App as a development dependency.
+* *[Ajv Json shema validatior](https://github.com/ajv-validator/ajv)*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## DevDependencies
 
-### `yarn build` fails to minify
+ESLint
+Prettier
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contact
+
+**Denise Muniz - dendenmuniz@gmail.com**
